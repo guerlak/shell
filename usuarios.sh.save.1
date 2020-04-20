@@ -1,0 +1,39 @@
+
+#!/bin/bash
+#usuarios.sh
+#
+#Mostra o login e nomes de usuários no sistema
+#Obs: Lê os dados do arquivo /etc/passwd
+#
+#Versão 1: Mostra usuários e nomes separados por TAB
+#Versão 1.2: Adicionando suporte à opção -h e -V
+#
+#Rafael, abril de 2020
+#
+
+MENSAGEM_USO="
+Uso: $0 [-h]
+
+-h	 Monstra tela de ajuda e sai
+"
+
+#Tratamento das opções da linha de comando
+case "$1" in
+	-h) 
+		echo "$MENSAGEM_USO"
+		exit 0
+	;;
+	-V)
+		echo "Versão 1.2"
+		exit 0
+	;;
+	*)
+		echo "Opção inválida: Digite -h para informações"
+		exit 1
+	
+
+#Processamento
+cut -d : -f 1,5 /etc/passwd | tr : \\t
+
+
+
