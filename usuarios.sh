@@ -30,8 +30,8 @@ MENSAGEM_USO="
 "
 
 ordenar=0	# A saída deverá ser ordenada?
-uppercase=0 	# A saída deverá ser em letras maiúsculas
-reverse=0 	# A saída deverá ser reversa
+uppercase=0 	# A saída deverá ser em letras maiúsculas?
+reverse=0 	# A saída deverá ser reversa?
 
 #Tratamento das opções da linha de comando
 while test -n "$1"
@@ -61,7 +61,7 @@ do
 	fi
 	;;
  esac
-#Opção $1 processada, a file segue.
+#Opção $1 processada, segue o proximo da fila em $1
 shift
 done
 
