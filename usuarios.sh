@@ -31,13 +31,14 @@ MENSAGEM_USO="
 
 ordenar=0	# A saída deverá ser ordenada?
 uppercase=0 	# A saída deverá ser em letras maiúsculas
-reverse=1 	# A saída deverá ser reversa
+reverse=0 	# A saída deverá ser reversa
 
 #Tratamento das opções da linha de comando
 while test -n "$1"
 do
  case "$1" in
-	-h|--help) 
+
+	-h|--help)
 		echo "$MENSAGEM_USO"
 		exit 0
 		;;
@@ -47,15 +48,11 @@ do
 		grep '^# Versão ' "$0" | tail -1 | cut -d : -f 1 | tr -d \# 
 		exit 0
 	;;
-	-s | --sort)
-		ordenar=1
-	;;
-	-u | --uppercase)
-		uppercase=1
-	;;
-	-r | --reverse)
-		reverse=1
-	;;
+	#Opções que ligam/desligam chaves
+	-s | --sort ) ordenar=1 ;;
+	-u | --uppercase ) uppercase=1 ;;
+	-r | --reverse ) reverse=1 ;;
+
 	*)
 	if test -n "$1"
 	then
@@ -71,23 +68,10 @@ done
 # Extrai a listagem
 lista=$(cut -d : -f 1,5 /etc/passwd)
 
-# Ordena (se necessário)
-if test "$ordenar" = 1
-then
-	lista=$(echo "$lista" | sort)
-fi
-
-# Letras maiúsculas (se necessário)
-if test "$uppercase" = 1
-then
-	lista=$(echo "$lista" | tr a-z A-Z)
-fi
-
-# Lista em reverso (se necessário)
-if test "$reverse" = 1
-then
-	lista=$(echo "$lista" | tac)
-fi
+# Ordena, inverte ou converte para maiúsculas (se necessário)
+test "$ordenar" = 1 && lista=$(echo "$lista" | sort)
+test "$uppercase" = 1 && lista=$(echo "$lista" | tr a-z A-Z)
+test "$reverse" = 1 && lista=$(echo "$lista" | tac)
 
 # Mostra o resultado ao usuário
 echo "$lista" | tr : //t
